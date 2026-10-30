@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="referrer" content="no-referrer">
+<title>Da Lat with Han &amp; Ben</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,650&family=Be+Vietnam+Pro:wght@400;500;600&display=swap">
+<style>
+/* Layout: a highland field guide — one narrow reading column of place cards, sections by tab, a voter bar pinned at the top. */
+:root{
+  --bg:#eef1ec; --paper:#fbfcf9; --ink:#1c2822; --muted:#5d6b63; --line:#d5ddd5;
+  --pine:#2f5d4a; --pine-soft:#dfe9e2; --bloom:#6b5aa6; --bloom-soft:#e9e5f4;
+  --yes:#2e7d4f; --yes-soft:#dcefe2; --maybe:#a06a12; --maybe-soft:#f5ead3; --no:#a63d3d; --no-soft:#f4dfdc;
+  --f-display:"Literata",Georgia,"Times New Roman",serif;
+  --f-body:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141b17; --paper:#1b241f; --ink:#e4ebe5; --muted:#9aa89f; --line:#2e3a33;
+  --pine:#7fb79a; --pine-soft:#22342b; --bloom:#b4a6e6; --bloom-soft:#2a2640;
+  --yes:#6fc493; --yes-soft:#1e3527; --maybe:#e0b25c; --maybe-soft:#3a2f18; --no:#e88a84; --no-soft:#3d2321; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141b17; --paper:#1b241f; --ink:#e4ebe5; --muted:#9aa89f; --line:#2e3a33;
+  --pine:#7fb79a; --pine-soft:#22342b; --bloom:#b4a6e6; --bloom-soft:#2a2640;
+  --yes:#6fc493; --yes-soft:#1e3527; --maybe:#e0b25c; --maybe-soft:#3a2f18; --no:#e88a84; --no-soft:#3d2321; color-scheme:dark}
+*{box-sizing:border-box}
+html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 64px}
+h1,h2,h3{font-family:var(--f-display);font-weight:650;text-wrap:balance;margin:0}
+h1{font-size:2rem;line-height:1.15;letter-spacing:-.01em}
+.lede{color:var(--muted);margin:.5rem 0 0;max-width:62ch}
+.dates{display:flex;flex-wrap:wrap;gap:6px 14px;margin:14px 0 0;font-size:.86rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.dates b{color:var(--ink);font-weight:600}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);margin:20px 0 0;padding-block:10px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.who{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:.88rem}
+.who .lbl{color:var(--muted)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--paper)}
+.seg button{all:unset;cursor:pointer;padding:6px 14px;font-weight:500;font-size:.88rem}
+.seg button[aria-pressed="true"]{background:var(--pine);color:var(--paper)}
+.seg button:focus-visible,.tabs button:focus-visible,.chip:focus-visible,.vb:focus-visible,.btn:focus-visible{outline:2px solid var(--bloom);outline-offset:2px}
+.tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.tabs button{all:unset;cursor:pointer;padding:7px 12px;border-radius:8px;font-weight:600;font-size:.92rem;color:var(--muted);white-space:nowrap}
+.tabs button[aria-selected="true"]{background:var(--pine-soft);color:var(--pine)}
+.tabs .n{font-weight:500;font-size:.78rem;margin-left:4px;opacity:.8;font-variant-numeric:tabular-nums}
+.status{font-size:.8rem;color:var(--muted);min-height:1.2em}
+.status.warn{color:var(--maybe)}
+.sec{margin-top:22px}
+.sec-intro{color:var(--muted);font-size:.9rem;max-width:62ch;margin:0 0 12px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+.chip{all:unset;cursor:pointer;border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:4px 11px;font-size:.82rem}
+.chip[aria-pressed="true"]{border-color:var(--pine);color:var(--pine);background:var(--pine-soft)}
+.group-h{font-family:var(--f-display);font-size:1.1rem;margin:22px 0 10px;color:var(--pine)}
+.list{display:flex;flex-direction:column;gap:12px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.card h3{font-size:1.12rem;line-height:1.3}
+.loc{font-size:.84rem;color:var(--muted)}
+.meta{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.meta span b{color:var(--ink);font-weight:500}
+.desc{font-size:.92rem;margin:0}
+.tagrow{display:flex;flex-wrap:wrap;gap:5px}
+.tag{font-size:.72rem;font-weight:600;letter-spacing:.02em;padding:2px 8px;border-radius:5px;background:var(--pine-soft);color:var(--pine)}
+.tag.both{background:var(--yes-soft);color:var(--yes)}
+.tag.han{background:var(--bloom-soft);color:var(--bloom)}
+.tag.warn{background:var(--maybe-soft);color:var(--maybe)}
+.links{display:flex;flex-wrap:wrap;gap:12px;font-size:.84rem}
+.links a{color:var(--pine);font-weight:500;text-decoration:none}
+.links a:hover{text-decoration:underline}
+.votes{border-top:1px solid var(--line);padding-top:8px;display:grid;grid-template-columns:auto 1fr;gap:5px 10px;font-size:.86rem;align-items:start}
+.votes .p{font-weight:600;min-width:3.2em}
+.v{display:inline-block;font-weight:600;font-size:.76rem;padding:1px 7px;border-radius:5px;margin-right:6px}
+.v.yes{background:var(--yes-soft);color:var(--yes)} .v.maybe{background:var(--maybe-soft);color:var(--maybe)} .v.no{background:var(--no-soft);color:var(--no)}
+.v.none{color:var(--muted);font-weight:400;padding-left:0}
+.q{color:var(--muted);font-style:italic}
+.mine{display:flex;flex-direction:column;gap:6px}
+.vbtns{display:flex;gap:6px;flex-wrap:wrap}
+.vb{all:unset;cursor:pointer;border:1px solid var(--line);border-radius:7px;padding:4px 12px;font-size:.84rem;font-weight:600;background:var(--paper)}
+.vb.yes[aria-pressed="true"]{background:var(--yes-soft);border-color:var(--yes);color:var(--yes)}
+.vb.maybe[aria-pressed="true"]{background:var(--maybe-soft);border-color:var(--maybe);color:var(--maybe)}
+.vb.no[aria-pressed="true"]{background:var(--no-soft);border-color:var(--no);color:var(--no)}
+.note{width:100%;font:inherit;font-size:.86rem;padding:6px 9px;border:1px solid var(--line);border-radius:7px;background:var(--bg);color:var(--ink)}
+.areas{display:flex;flex-direction:column;gap:12px}
+.area{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.area h3{font-size:1.05rem;margin-bottom:4px}
+.area p{margin:0;font-size:.92rem}
+.foot{margin-top:30px;font-size:.82rem;color:var(--muted);display:flex;flex-direction:column;gap:10px}
+.btn{all:unset;cursor:pointer;border:1px solid var(--pine);color:var(--pine);border-radius:8px;padding:7px 14px;font-weight:600;font-size:.88rem;align-self:flex-start}
+.btnrow{display:flex;flex-wrap:wrap;gap:8px}
+.copybox{width:100%;min-height:120px;font:inherit;font-size:.82rem;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink)}
+.empty{color:var(--muted);font-size:.9rem;padding:8px 0}
+@media (min-width:700px){h1{font-size:2.4rem}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <h1>Da Lat with Han &amp; Ben</h1>
+    <p class="lede">Everything Rob and Anna have looked at for Da Lat, with their votes and comments. If you're coming along, add your own yes, maybe or no (and a note if you like) and we'll plan the days around the ones we all like.</p>
+  </header>
+
+  <div class="bar">
+    <div class="who">
+      <span class="lbl">Voting as</span>
+      <div class="seg" role="group" aria-label="Who is voting">
+        <button type="button" id="as-rob" data-who="rob" aria-pressed="false">Rob</button>
+        <button type="button" id="as-anna" data-who="anna" aria-pressed="false">Anna</button>
+        <button type="button" id="as-han" data-who="han" aria-pressed="false">Han</button>
+        <button type="button" id="as-ben" data-who="ben" aria-pressed="false">Ben</button>
+        <button type="button" id="as-none" data-who="" aria-pressed="true">Just looking</button>
+      </div>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button type="button" role="tab" id="tab-coffee" data-tab="coffee" aria-selected="true">Coffee<span class="n" data-count="coffee"></span></button>
+      <button type="button" role="tab" id="tab-food" data-tab="food" aria-selected="false">Food<span class="n" data-count="food"></span></button>
+      <button type="button" role="tab" id="tab-sights" data-tab="sights" aria-selected="false">Sights<span class="n" data-count="sights"></span></button>
+      <button type="button" role="tab" id="tab-areas" data-tab="areas" aria-selected="false">Areas</button>
+    </nav>
+    <div class="status" id="status">Connecting…</div>
+  </div>
+
+  <main id="main"></main>
+
+  <footer class="foot">
+    <div>Rob and Anna’s earlier votes and comments are copied from their planner as they wrote them; pick your name above to vote on newer cards or change a vote. Opening hours and prices come from the sources linked on each card, checked October 2026, and can change.</div>
+    <div class="btnrow">
+      <button type="button" class="btn" id="exportBtn">Export my votes (file)</button>
+      <button type="button" class="btn" id="copyBtn">Copy my votes as text</button>
+      <label class="btn" for="importFile">Load a votes file</label>
+      <input type="file" id="importFile" accept=".json,application/json" hidden multiple>
+    </div>
+    <div>Your votes save on this phone or computer as you go. When you are done, tap <b>Export my votes</b> and send the file to the group (or copy them as text into WhatsApp). <b>Load a votes file</b> shows someone else's exported votes on the cards.</div>
+    <textarea class="copybox" id="copyBox" hidden readonly aria-label="Your votes as text"></textarea>
+  </footer>
+</div>
+
+<script>
+const GM = q => 'https://www.google.com/maps/search/' + encodeURIComponent(q + ' Da Lat');
+const COR = 'https://www.vietnamcoracle.com/dalat-food-guide/';
+// r / a = Rob / Anna: [vote, note] copied verbatim from the planner
+const CARDS = [
+ // ---------------- COFFEE
+ {id:'c-son',sec:'coffee',name:'Sơn Pacamara Specialty Coffee Farm',loc:'Cam Ly, by the Pink Valley · ~10 min from the centre',when:'Tours 08:30 or 13:30',price:'600,000 ₫ pp for the 3 h roasting or cupping session',tags:[['both','Both of us: yes']],
+  desc:'The only Pacamara grown in Vietnam, plus Typica and Bourbon. The 3-hour sessions include a farm walk, then either roasting or cupping. November is harvest. Booked by phone or WhatsApp with Tùng (0795 331 238); we can ask whether there is room for you.',
+  links:[['Farm tours page','https://sonpacamara.com/tham-quan-nong-trai-ca-phe/'],['Map',GM('Son Pacamara Coffee Farm')]],r:['yes','will read about these farms, how to get there? grab? This one is my pick'],a:['yes','Was this the famous Arabica? If so, would quite like to go!']},
+ {id:'c-mew',sec:'coffee',name:'Mew Roastery',loc:'35A Võ Trường Toản',when:'08:00–17:00 · closed Tuesdays',tags:[],
+  desc:'A small roaster working micro-batch lots from the Lang Biang farms, with a slow bar. They also have a shop in Saigon, District 3.',links:[['Map',GM('Mew Roastery 35A Vo Truong Toan')]],r:['yes',''],a:['yes','']},
+ {id:'c-kho',sec:'coffee',name:'K’Ho Coffee — workshop unconfirmed',loc:'Lạc Dương / current café identity unclear',price:'Older listing: ~€15–25 pp',tags:[['warn','Direct confirmation required']],
+  desc:'The tree-to-cup cooperative workshop sounds excellent, but Google Maps now marks the old 2 Duy Tân and 26 Mạc Đĩnh Chi K’Ho pins permanently closed. A newer K’HO Arabica Café appears at 54 Nguyễn Đình Chiểu; that does not verify the farm tour. Keep as a research lead, not a recommendation, until K’Ho confirms the current workshop, meeting point and price directly.',links:[['Site','https://khocoffee.com/'],['Current café search',GM('KHO Arabica Cafe 54 Nguyen Dinh Chieu Da Lat')]],r:['yes',''],a:['maybe','']},
+ {id:'c-laviet-dl',sec:'coffee',name:'Là Việt — the factory',loc:'200 Nguyễn Công Trứ',tags:[['','Optional'],['','Root Chow pick']],
+  desc:'Da Lat’s big specialty name, at its processing mill and roastery, with a café attached. The industrial warehouse and visible production side make it a useful contrast to Sơn Pacamara’s polished barista experience. It is on every list, so it can be busy, but harvest month is the right time to see the operation.',links:[['Official site','https://laviet.coffee/en/dalat/'],['Map',GM('La Viet Coffee 200 Nguyen Cong Tru')]],a:['maybe','']},
+ {id:'c-married',sec:'coffee',name:'Forest Beans — formerly The Married Beans showroom',loc:'06 Nguyễn Văn Trỗi',tags:[['','Open café'],['warn','Old workshops not verified']],
+  desc:'Google Maps now lists Forest Beans / Cà Phê Vườn Rừng here and shows it open. The Married Beans wholesaler at 44 Hùng Vương and Workspace Coffee at 35-3 Yersin are permanently closed. Treat Forest Beans as a current café, not evidence that The Married Beans tastings or workshops continue.',links:[['Map',GM('Forest Beans 06 Nguyen Van Troi Da Lat')]],r:['yes',''],a:['maybe','']},
+ {id:'c-twin',sec:'coffee',name:'Twin Beans Farm — pick and roast',loc:'Lạc Dương, 20 km out, 1,500 m',price:'~€30 pp',tags:[],
+  desc:'You roast your own beans over a fire in a pine forest. A scenic morning more than a coffee one.',links:[['Map',GM('Twin Beans Farm Lac Duong')]],r:['maybe','i dont think hand roasting our own would actually taste nice'],a:['maybe','']},
+ {id:'c-caudat',sec:'coffee',name:'Cầu Đất tea hills and the 1929 tea factory',loc:'~25 km east · half a day by car',when:'07:00–17:00',price:'Free entry',tags:[['','Root Chow wildcard']],
+  desc:'Vietnam’s oldest tea estate on a ridge, with wild sunflowers along the road in November. The tea museum adapts a 1929 factory, retaining its industrial structure and machinery while adding contemporary exhibition and tasting spaces. Culture, architecture and a palate reset from coffee; it pairs with the winery.',links:[['Architecture','https://www.archdaily.com/974215/cau-dat-tea-museum-bo-design-and-construction'],['Map',GM('Cau Dat tea museum')]],a:['maybe',''],r:['maybe','Looks cool but a half day in the car would be a bit of a drag. Still nothing back about availability, will check via the website.']},
+ {id:'c-motban',sec:'coffee',name:'Tiệm Cà Phê Một Bàn — the nomadic one-table café',loc:'Location changes daily · message Sói the evening before',when:'Usually 05:00–07:00',price:'Pay what you want',tags:[['','Best multi-roaster discovery'],['','Whimsical + intimate']],
+  desc:'One folding table appears beside a lake, in a park or among the pines at dawn. Everyone sits together while Sói makes pour-over from a daily choice of 5–6 beans sourced from different roasteries. This is the closest match to “several craft roasters in one place”: not a formal controlled cupping, but a tiny comparative tasting with conversation instead of a tourist complex. The Facebook page posted as recently as September 2025; message first because the pop-up can travel or pause.',links:[['Saigoneer','https://saigoneer.com/vietnam-street-food-restaurants/26492-h%E1%BA%BBm-gems-%C4%91%C3%A0-l%E1%BA%A1t-s-nomadic-cafe-has-no-menu,-no-store,-and-one-table'],['Ask tomorrow’s location','https://www.facebook.com/tiemcaphemotban'],['Maps search — location changes',GM('Tiem Ca Phe Mot Ban')]],a:['maybe',''],r:['yes','Would be into this if Sơn Pacamara isnt possible']},
+
+ {id:'h-sonroastery',sec:'coffee',name:'Sơn Roastery & Café by Sơn Pacamara',loc:'20C Hoàng Văn Thụ, Cam Ly',when:'08:00–17:00',tags:[['han','Han’s pin']],
+  desc:'From your Google Maps list. Rated 4.9 on Maps. The in-town roastery and café of the Sơn Pacamara farm above, so you can taste their coffee without the 3-hour farm session.',links:[['Site','https://sonpacamara.com/'],['Map',GM('Son Roastery Cafe by Son Pacamara 20C Hoang Van Thu')]],a:['maybe',''],r:['yes','yes must']},
+ {id:'h-tamtrinh',sec:'coffee',name:'Tam Trinh Coffee Experiences',loc:'Nam Ban, Lâm Hà · roughly 30 km west of Da Lat',when:'Opens 07:00',tags:[['han','Han’s pin'],['warn','Check tour details first']],
+  desc:'From your Google Maps list. Rated 4.8 on Maps. A coffee-farm visit run by Tám Trình Coffee, a Lâm Đồng grower and exporter that works with hundreds of local farms and picks ripe cherry selectively. Its website doesn’t list tour times or prices, so message them before making the trip out.',links:[['Site','https://tamtrinhcoffee.com/'],['Map',GM('Tam Trinh Coffee Experiences Nam Ban')]],a:['maybe',''],r:['no','Looks a bit influencery, and not really specialty coffe']},
+ {id:'c-lej',sec:'coffee',name:'Le J’ Café & Roastery',loc:'Alley 51 Yersin',when:'From 08:00 · closed Wednesdays',tags:[['','Rob’s pick'],['','Checked on Maps, 28 Oct']],
+  desc:'A small alley café that roasts by hand. It sells a washed Red Bourbon from Lạc Dương grower Ha Djim (second prize in the UCC arabica contest) alongside Cup of Excellence imports. Rated 4.8 on Maps.',links:[['Site','https://lejcafe.com'],['Map',GM('Le J cafe Hem 51 Yersin')]]},
+ {id:'c-qcoffee',sec:'coffee',name:'Q Coffee Roastery',loc:'305 Tô Ngọc Vân',when:'From 06:30',tags:[['','Rob’s pick'],['','Opens early'],['warn','A fallback, not a destination']],
+  desc:'A corner café roasting Lâm Đồng beans, with V60 pour-overs. It opens at 06:30, so it’s the earliest coffee on this list. Rated 4.9 on Maps, but there is little written about it.',links:[['Urban Sesame','https://urbansesame.com/food/fantastic-vietnamese-coffee-roasters-and-where-to-find-them-tried-and-tested/'],['Map',GM('Q Coffee Roastery Dalat 305 To Ngoc Van')]]},
+
+ // ---------------- FOOD — Root Chow picks
+ {id:'rc-hongtra',sec:'food',grp:'Root Chow picks',name:'Hồng Trà Hòa Bình — Bùi Thị Xuân',loc:'Bùi Thị Xuân, Ward 2',tags:[['han','Design pick']],
+  desc:'A 2024 four-storey townhouse reuse by xưởng xép: basalt-red finishes drawn from the Central Highlands, pivoting glass openings, terraces and a translucent rooftop canopy. Go for the architecture and a tea break rather than another coffee flight.',links:[['Official site','https://hongtrahoabinh.com/'],['Architecture','https://www.archdaily.com/1030747/hong-tra-hoa-binh-bui-thi-xuan-cafe-xuong-xep'],['Map',GM('Hong Tra Hoa Binh Bui Thi Xuan')]],a:['maybe',''],r:['maybe','']},
+ {id:'rc-emai',sec:'food',grp:'Root Chow picks',name:'Émai Valley',loc:'88 Hoàng Hoa Thám',when:'07:30–22:00',tags:[['','Beautiful dinner']],
+  desc:'A pine-valley hillside restaurant with rose gardens, soft candlelight, jazz and classical music, and refined European cooking. Beautiful and atmospheric without being stiff; book ahead if this is one of the trip’s special dinners.',links:[['Restaurant and reservations','https://www.emaivalley.com/restaurant'],['Map',GM('Emai Valley 88 Hoang Hoa Tham')]],a:['no',''],r:['no','']},
+ {id:'r-curu',sec:'food',grp:'Robin’s Saigoneer picks',name:'Cù Rú — local-wine bar and art greenhouse',loc:'2 Phạm Hồng Thái, near Da Lat station',when:'From 19:00 · event schedule varies',tags:[['','Best new Saigoneer add'],['','Whimsical + lively']],
+  desc:'A gloriously odd artists’ greenhouse filled with plants, mismatched furniture, books, installations and resident weirdness. The drinks are house-infused local spirits and fruit/herb cocktails; live music, exhibitions and performances happen irregularly. The current Google listing is active and says it opens at 19:00; check Facebook for that night’s programme.',links:[['Saigoneer','https://saigoneer.com/vietnam-street-food-restaurants/19775-h%E1%BA%BBm-gems-c%C3%B9-r%C3%BA,-an-old-saigon-bar-that-took-root-in-da-lat'],['Current events','https://www.facebook.com/Curulocalwine/'],['Map',GM('Cu Ru Bar 2 Pham Hong Thai')]],a:['yes',''],r:['yes','']},
+
+ // ---------------- FOOD — classics
+ {id:'f-nightmkt',sec:'food',grp:'Classics',name:'Da Lat Night Market',loc:'Nguyễn Thị Minh Khai / the market steps',when:'Every night',price:'~€3–6',tags:[['both','Both of us: yes']],
+  desc:'Bánh tráng nướng, grilled skewers, warm soy milk, sweet potato, corn. Cold, loud, good.',links:[['Map',GM('Da Lat night market')]],r:['yes',''],a:['yes','']},
+ {id:'f-bahung',sec:'food',grp:'Classics',name:'Nem Nướng Bà Hùng',loc:'328 Phan Đình Phùng (the family original is at 52 KQH Hoàng Văn Thụ)',when:'11:00–21:00',price:'~€4 pp',tags:[['both','Both of us: yes']],
+  desc:'Grilled pork sausage rolled at the table in rice paper with herbs, pickles and the peanut-pork dipping sauce. Da Lat’s dish.',links:[['Map',GM('Nem Nuong Ba Hung 328 Phan Dinh Phung')]],r:['yes','fuck yeah'],a:['yes','']},
+ {id:'f-banhcan',sec:'food',grp:'Classics',name:'Bánh căn',loc:'Tăng Bạt Hổ / Nhà Chung',when:'Evenings',price:'~€2',tags:[],
+  desc:'Mini rice-flour pancakes with quail egg, cooked in clay moulds and dunked in fish sauce with meatballs. The named stalls are further down.',links:[['Map',GM('banh can Tang Bat Ho')]],r:['yes',''],a:['yes','']},
+ {id:'f-hoasua',sec:'food',grp:'Classics',name:'Hoa Sữa — soy milk and bánh mì',loc:'Tăng Bạt Hổ',when:'Evenings',price:'~€1.50',tags:[],
+  desc:'Warm soy milk and a bánh mì on a cold night.',links:[['Map',GM('Sua Dau Nanh Hoa Sua')]],r:['yes',''],a:['yes','']},
+ {id:'f-thanhthao',sec:'food',grp:'Classics',name:'Kem Bơ Thanh Thảo — avocado ice cream',loc:'Nguyễn Văn Trỗi',price:'~€1.50',tags:[],
+  desc:'Avocado blended to a mousse with coconut ice cream on top.',links:[['Map',GM('Kem Bo Thanh Thao')]],r:['yes','one for anna'],a:['yes','yeeeeeeessssssss, pls!']},
+ {id:'f-oc33',sec:'food',grp:'Classics',name:'Ốc nhồi thịt at Quán Ốc 33',loc:'3/10–3/12 Hai Bà Trưng, the alley beside Sacombank',when:'10:00–~21:30',price:'~€4',tags:[],
+  desc:'Snail shells stuffed with minced pork and lemongrass, steamed, pulled out with a lemongrass stalk. Vietnam Coracle prefers Thành 68 for the same dish (further down).',links:[['Map',GM('Quan Oc 33 Hai Ba Trung')]],r:['yes','sounds amazing'],a:['no','looks like a hotpot place']},
+ {id:'f-dlsft',sec:'food',grp:'Classics',name:'Da Lat street food walking tour',loc:'Evening, ~3 h, small group',when:'From 17:30',price:'~US$36 pp',tags:[],
+  desc:'Binh’s Dalat Street Food Tours is the operator with an independent food-writer write-up. A private run is possible, which would let us drop stops we would skip.',links:[['Map',GM('Binh Dalat Street Food Tours')]],r:['yes','sounds incredible'],a:['yes','looks really good!! couple people also saying they got a private tour.']},
+ {id:'f-ladora',sec:'food',grp:'Classics',name:'Ladora Winery / Château Dalat tasting',loc:'Tasting room in town, or the winery at Cầu Đất',price:'~€10–20 pp',tags:[],
+  desc:'Vietnam’s only real wine region. A fun tasting, and the Cầu Đất winery sits in the tea hills.',links:[['Map',GM('Ladora Winery')]],r:['yes','maybe we could do a wine tasting'],a:['yes','This might be the same place as the hobbit village ']},
+ {id:'f-netspace',sec:'food',grp:'Cooking classes',name:'Netspace Đà Lạt — real culinary-school wildcard',loc:'60 Hùng Vương',when:'Open Mon–Sat to 17:00 on Maps; class time by request',price:'Private short-course price not published',tags:[['','Most advanced if they say yes'],['warn','English/private date must be confirmed']],
+  desc:'This is an actual vocational kitchen rather than tourist theatre. Its official Vietnamese-cuisine programme runs from basic to advanced, says 90% of the course is practical, and advertises focused 1–2-session classes. Google Maps shows the exact Đà Lạt school open and an owner post dated 11 Sep 2026. Best ask: a private 3–4 hour English session for four on one demanding regional technique or dish. The school is live; a visitor-friendly English half-day is an enquiry, not a published product.',links:[['Vietnamese-cuisine programme','https://netspace.edu.vn/lop-hoc-nau-mon-viet-o-da-lat/'],['Map',GM('Netspace 60 Hung Vuong')]],a:['maybe',''],r:['maybe','']},
+ {id:'f-lifeinlaugh',sec:'food',grp:'Cooking classes',name:'Life in Laugh — private custom home class',loc:'Xuân Trường; central-market meeting point',when:'08:30 or 16:30 · 4.5 h',price:'US$35 direct / US$39 on Cookly',tags:[['','Best realistic bookable fit'],['warn','Customize or skip']],
+  desc:'A tiny home-and-garden class with Miss Son: market shopping, then full hands-on prep of three chosen dishes. It is current (official Aug 2026 price post; live Maps pin; recent Apr/Aug 2026 reviews), English-language and private/group bookings are offered. But the advertised class is explicitly beginner-friendly. It earns a place only if Son agrees to make your four-person session harder — for example bún riêu cua from scratch plus steamed fish with coconut sauce and banana–pork-ear salad — and to spend the time on stock, crab-raft, heat and seasoning technique rather than spring-roll assembly.',links:[['Menu and private booking','https://www.cookly.me/do/1574-home-cooking-class-central-market-tour-dalat/in/da-lat'],['Map',GM('Life in Laugh cooking class Xuan Truong')]],a:['maybe',''],r:['maybe','']},
+
+ // ---------------- FOOD — stalls (the September research round)
+ {id:'g-xiumairi79',sec:'food',grp:'Bánh mì xíu mại',name:'Bánh Mì Xíu Mại Ri 79 (“79 Cũ”)',loc:'2 Thông Thiên Học, in the alley by the back gate of Nguyễn Du school',when:'06:00–19:00 daily',price:'~25k',tags:[['both','Both of us: yes'],['warn','On the lists']],
+  desc:'Xíu mại meatballs in hot broth with shredded green papaya; you dip the baguette in. A pushcart at the front of a townhouse, the one residents recommend most.',links:[['Vietnam Coracle',COR],['Map',GM('Banh Mi Xiu Mai Ri 79 Thong Thien Hoc')]],r:['yes','this was the one on the video, looked great, if a bit touristy'],a:['yes','']},
+ {id:'g-belinh',sec:'food',grp:'Bánh mì xíu mại',name:'Bánh Mì Xíu Mại Bé Linh',loc:'37 Hoàng Diệu, in the alley',when:'05:30–12:00 · usually gone by 09:00–10:00',price:'~20–25k',tags:[['both','Both of us: yes']],
+  desc:'Xíu mại with pork skin in chilli broth, plus hot bread. About fifty years old across two generations, broth held over charcoal all morning.',links:[['Thanh Niên','https://thanhnien.vn/banh-mi-xiu-mai-nua-the-ky-danh-thuc-buoi-sang-nguoi-da-lat-185801919.htm'],['Map',GM('Banh Mi Xiu Mai Be Linh 37 Hoang Dieu')]],r:['yes','link didnt work, but from google images it looks great. i probably prefer sandwich form tbh'],a:['yes','']},
+ {id:'g-hoale',sec:'food',grp:'Bánh mì xíu mại',name:'Bánh Mì Hoa Lê',loc:'1c Nhà Chung · 7 min walk from the market',when:'07:00–16:00, variable',price:'~20–25k',tags:[['both','Both of us: yes']],
+  desc:'Xíu mại in sandwich form rather than the bowl: shredded papaya, meatballs, tender cartilage. Next to a school, feeding students and workers.',links:[['Vietnam Coracle',COR],['Map',GM('Banh Mi Hoa Le Nha Chung')]],r:['yes','good for the sandwich form. '],a:['yes','']},
+ {id:'g-bccogai',sec:'food',grp:'Bánh căn',name:'Bánh Căn Cô Gái',loc:'66 Nguyễn Trung Trực · 12 min walk from Chợ Đà Lạt',when:'06:00–10:00, often closed by 09:30',price:'25–40k',tags:[],
+  desc:'Bánh căn with quail egg at a modest pavement stall serving neighbours. Vietnam Coracle picks it over the tourist-facing Nhà Chung stalls.',links:[['Vietnam Coracle',COR],['Map',GM('Banh Can Co Gai 66 Nguyen Trung Truc')]],r:['yes',''],a:['maybe','']},
+ {id:'g-bccohoa',sec:'food',grp:'Bánh căn',name:'Bánh Căn Cô Hoa',loc:'12 Phan Đình Phùng · 10 min walk',when:'Mornings, probably to ~09:30',price:'30–50k',tags:[],
+  desc:'20+ years on a working local street. Locals come for the xíu mại dipping sauce more than the pancake.',links:[['Vexere','https://blog.vexere.com/banh-can-da-lat/'],['Map',GM('Banh Can Co Hoa 12 Phan Dinh Phung')]],r:['no',''],a:['yes','']},
+ {id:'g-bccochin',sec:'food',grp:'Bánh căn',name:'Bánh Căn Cô Chín — Dốc Nhà Làng',loc:'15A Nguyễn Biểu, up the Dốc Nhà Làng slope',when:'06:00–11:30 and 15:00–19:00',price:'20–30k',tags:[],
+  desc:'20+ years in the old Dốc Nhà Làng quarter. The one for bánh căn in the evening.',links:[['Vexere','https://blog.vexere.com/banh-can-da-lat/'],['Map',GM('Banh Can Co Chin 15A Nguyen Bieu')]],r:['no',''],a:['maybe','']},
+ {id:'g-phouyen',sec:'food',grp:'Noodles and soups',name:'Phở Uyên',loc:'167 Xô Viết Nghệ Tĩnh · 10 min by Grab',when:'07:00–16:00 daily',price:'50k',tags:[['both','Both of us: yes']],
+  desc:'Cô Thức, a former teacher, has sold phở bò here since 1994, in a 60-year-old wooden house her parents built. The broth is still done on a charcoal stove.',links:[['VietnamNet','https://vietnamnet.vn/quan-pho-hoai-niem-cua-ba-cu-u80-tai-da-lat-khien-thuc-khach-me-man-2092194.html'],['Map',GM('Pho Uyen 167 Xo Viet Nghe Tinh')]],r:['yes','eat in, and looks like a proper grandmother pho, charcoal stove. this is the pho pick i reckon, nee to check opening hours. '],a:['yes','']},
+ {id:'g-cataM',sec:'food',grp:'Noodles and soups',name:'Bún Cá Tầm A Huy',loc:'21 Yersin · 10 min walk from the market',when:'07:00–21:00',tags:[],
+  desc:'Sturgeon noodle soup in a tomato-pineapple broth. Sturgeon farming in the cold lakes is a highland speciality; they have done it since about 2005.',links:[['Vietnam Coracle',COR],['Map',GM('Bun Ca Tam A Huy 21 Yersin')]],r:['no',''],a:['maybe','']},
+ {id:'g-buotlongga',sec:'food',grp:'Noodles and soups',name:'Bánh Ướt Lòng Gà Hằng',loc:'39 Đồng Tâm · 10 min by Grab',when:'Lunch',price:'20–60k',tags:[],
+  desc:'Rice sheets with mixed chicken offal, shredded chicken, crisp shallots. Family-run from what is basically the owners’ living room.',links:[['Vietnam Coracle',COR],['Map',GM('Banh Uot Long Ga Hang 39 Dong Tam')]],r:['no','Im gonna pass on offal generally'],a:['maybe','']},
+ {id:'g-chaolongdilinh',sec:'food',grp:'Noodles and soups',name:'Cháo Lòng Di Linh — Bà Mén',loc:'11 Nguyễn Thái Học, on the lake side',when:'06:00–11:00',price:'35–50k',tags:[],
+  desc:'Di Linh-style offal congee with bánh hỏi, a Lâm Đồng regional variant. A residents’ breakfast address for 20+ years.',links:[['Báo Vĩnh Long','https://baovinhlong.com.vn/giai-tri/am-thuc/201907/thuong-thuc-chao-long-di-linh-giua-xu-ngan-hoa-2954285/'],['Map',GM('Chao Long Di Linh Ba Men')]],r:['no','too hardcore for me'],a:['no','']},
+ {id:'g-bakhung',sec:'food',grp:'Snacks and sweets',name:'Bánh Tráng Nướng “Bà Khùng”',loc:'61 Nguyễn Văn Trỗi · 12 min walk from the market',when:'15:30–22:00 · closed Mondays',price:'25k',tags:[],
+  desc:'Grilled rice paper with scallion oil, duck egg, minced beef and her own sauces. “The crazy lady” earned the name with her temper. She bans photos and filming at the stall.',links:[['Thanh Niên','https://thanhnien.vn/banh-trang-nuong-ba-khung-20-nam-o-da-lat-khien-nguoi-nguoi-me-tit-185777550.htm'],['Map',GM('Banh Trang Nuong Ba Khung 61 Nguyen Van Troi')]],r:['maybe','This sounds hilariously amazing. '],a:['yes','']},
+ {id:'g-dungbeo',sec:'food',grp:'Snacks and sweets',name:'Sữa Đậu Nành Dung Béo',loc:'2 Nguyễn Văn Cừ · 8 min walk from the market',when:'15:00–midnight',tags:[],
+  desc:'Hot pressed milks (peanut, sesame, corn, pumpkin, mung bean, soy) with fried pastries. Plastic chairs spilling into a busy junction.',links:[['Vietnam Coracle',COR],['Map',GM('Sua Dau Nanh Dung Beo')]],r:['no','doesnt do it for me'],a:['yes','']},
+ {id:'g-cavhe',sec:'food',grp:'Snacks and sweets',name:'Chè Hé',loc:'11 / 11A Đường 3 Tháng 2 · 8 min walk',when:'~15:00–21:00',price:'6–12k a bowl',tags:[],
+  desc:'Hot chè on a cold night. No sign; locals named it for the door the owner keeps only slightly ajar (“hé”) against the cold.',links:[['Địa Chỉ Ẩm Thực','https://diachiamthuc.vn/che-he-da-lat/'],['Map',GM('Che He 3 Thang 2')]],r:['no',''],a:['maybe','']},
+ {id:'g-xapxap',sec:'food',grp:'Snacks and sweets',name:'Xắp Xắp Cô Năm',loc:'Alley 9 Nguyễn Đình Chiểu',when:'08:00–21:00',tags:[],
+  desc:'A Da Lat-only oddity: peppery green papaya salad with warm slivers of beef liver and a spiced broth poured over.',links:[['Vietnam Coracle',COR],['Map',GM('Xap Xap Co Nam Nguyen Dinh Chieu')]],r:['no','Papaya maybe on the food poisoning concern list'],a:['maybe','']},
+ {id:'g-otome',sec:'food',grp:'Snacks and sweets',name:'Otome Farm — strawberries and artichokes',loc:'An Sơn · 10 min by Grab',when:'08:00–17:00',tags:[],
+  desc:'Pick your own strawberries and eat them with dried-plum salt. A working farm run by a couple who left Saigon, not a photo studio.',links:[['Vietnam Coracle',COR],['Map',GM('Otome Farm An Son')]],r:['no',''],a:['maybe','']},
+ {id:'g-thanh68',sec:'food',grp:'Dinner',name:'Quán Ăn Thành 68 — stuffed snails',loc:'Alley 12, Hai Bà Trưng · 8 min by Grab',when:'10:00–23:00',tags:[],
+  desc:'The same stuffed snails as Ốc 33, which Vietnam Coracle rates higher, in a rowdier room of beer-drinking uncles.',links:[['Vietnam Coracle',COR],['Map',GM('Quan An Thanh 68 Hai Ba Trung')]],r:['no',''],a:['no','']},
+ {id:'g-nhatly',sec:'food',grp:'Dinner',name:'Nhà Hàng Nhật Ly',loc:'88 Phan Đình Phùng · 10 min walk',when:'11:00–21:00',price:'30–150k a dish',tags:[],
+  desc:'The long-standing restaurant Da Lat families book for gatherings. Highland and game dishes: roast rabbit, venison, salt-roasted pig leg.',links:[['Mia.vn','https://mia.vn/cam-nang-du-lich/kham-pha-the-gioi-am-thuc-tai-nha-hang-nhat-ly-da-lat-1444'],['Map',GM('Nha Hang Nhat Ly 88 Phan Dinh Phung')]],r:['no',''],a:['no','']},
+ {id:'g-botodachien',sec:'food',grp:'Dinner',name:'Bò Tơ Dã Chiến — Hùng Bò',loc:'116 Hùng Vương · 10–12 min by Grab',when:'09:00–22:00',tags:[],
+  desc:'Young beef grilled at the table over a clay charcoal pot, with greens, herbs and green chilli sauce. Beef and nothing else.',links:[['Vietnam Coracle',COR],['Map',GM('Bo To Da Chien Hung Bo 116 Hung Vuong')]],r:['no',''],a:['no','']},
+ {id:'g-batoa',sec:'food',grp:'Dinner',name:'Lẩu Bò Ba Toa — Quán Gỗ',loc:'1/29 Hoàng Diệu, the wooden house',when:'10:00–22:00',price:'150–400k a pot',tags:[],
+  desc:'Beef hotpot with tail, tendon and brisket, 30+ years in the wooden-house original. Ba Toa is the neighbourhood where Da Lat beef hotpot started.',links:[['Địa Chỉ Ẩm Thực','https://diachiamthuc.vn/lau-bo-ba-toa/'],['Map',GM('Lau Bo Ba Toa Quan Go 1/29 Hoang Dieu')]],r:['no','Im not a hotpot fan really'],a:['no','']},
+ {id:'g-laue',sec:'food',grp:'Dinner',name:'Lẩu Gà Lá É — Tao Ngộ',loc:'5 Đường 3 Tháng 4 (original) or 155 Bùi Thị Xuân',when:'~10:00–21:00 (Bùi Thị Xuân to 23:00)',price:'200–400k a pot',tags:[['warn','Many copycats — check the address']],
+  desc:'Chicken hotpot with the lá é herb that turns the broth faintly sour. A Phú Yên dish that became a Da Lat institution.',links:[['Vietnam Coracle',COR],['Map',GM('Lau Ga La E Tao Ngo')]],r:['no','not a hotpot fan'],a:['no','']},
+ // Han's own pins
+ {id:'h-houts',sec:'food',grp:'From your map, Han',name:'Bánh căn Hồ Út',loc:'115 Phan Đình Phùng',tags:[['han','Han’s pin']],desc:'From your Google Maps list. Rated 4.8 from 37 reviews.',links:[['Map',GM('Banh can Ho Ut 115 Phan Dinh Phung')]],r:['yes','mini savory rice pancakes, sounds good']},
+ {id:'h-47',sec:'food',grp:'From your map, Han',name:'Bánh Mì Xíu Mại 47',loc:'47 Hoàng Diệu',tags:[['han','Han’s pin']],desc:'From your Google Maps list. Rated 4.5 from about 1,000 reviews.',links:[['Map',GM('Banh Mi Xiu Mai 47 Hoang Dieu')]],r:['yes','']},
+ {id:'h-curry',sec:'food',grp:'From your map, Han',name:'Curry Chaaa',loc:'32 Đường Ánh Sáng',when:'16:00–21:00 · still open on Maps (checked 28 Oct)',tags:[['han','Han’s pin']],desc:'From your Google Maps list. Rated 4.7 from about 640 reviews.',links:[['Map',GM('Curry Chaaa 32 Anh Sang')]],r:['yes','If it\'s still operating, sounded great.']},
+ {id:'h-bluedream',sec:'food',grp:'From your map, Han',name:'Blue Dream Bread',loc:'14 Vạn Hạnh · about 3 km north of the market',when:'08:30–22:00',tags:[['han','Han’s pin']],desc:'From your Google Maps list. A bakery, rated 4.5 on Maps.',links:[['Facebook','https://www.facebook.com/bluedreambread.saigon'],['Map',GM('Blue Dream Bread 14 Van Hanh')]],r:['yes','Saw a video of this place, looked great']},
+ {id:'h-ontherocks',sec:'food',grp:'From your map, Han',name:'On The Rocks Cocktail Bar',loc:'69 Trương Công Định',when:'Evenings, 18:30 to 02:00',tags:[['han','Han’s pin']],desc:'From your Google Maps list. A modern cocktail bar, rated 4.7 on Maps.',links:[['Site','http://ontherocks.vn/'],['Map',GM('On The Rocks Cocktail Bar 69 Truong Cong Dinh')]],r:['maybe','']},
+ {id:'h-oday',sec:'food',grp:'From your map, Han',name:'oday bar & working café',loc:'4/36, the slope opposite 41 Đào Duy Từ',when:'Closed Wednesdays',tags:[['han','Han’s pin']],desc:'From your Google Maps list. A cocktail bar that doubles as a laptop café, rated 4.9 on Maps.',links:[['Instagram','https://instagram.com/oday.dalat'],['Map',GM('oday bar working cafe Dao Duy Tu')]],a:['no',''],r:['no','']},
+
+ // ---------------- SIGHTS
+ {id:'s-linhphuoc',sec:'sights',name:'Linh Phước Pagoda and the 18 Gates of Hell',loc:'Trại Mát, 8 km east',price:'Free',tags:[['both','Both of us: yes']],
+  desc:'A mosaic dragon pagoda, then the basement: a maze of the 18 Buddhist hells in papier-mâché with sound effects. The old railway station’s tourist train runs out here too.',links:[['Map',GM('Linh Phuoc Pagoda Trai Mat')]],r:['yes','must see, make sure ample time'],a:['yes','']},
+ {id:'s-bidoup',sec:'sights',name:'Bidoup Núi Bà National Park',loc:'~50 km north',when:'Guided walks 2–6 h',price:'~€25–35',tags:[['both','Both of us: yes']],
+  desc:'Vietnam’s largest national park: pine and evergreen forest, moderate trails, the Lang Biang massif. Needs a guide or a car for the afternoon; bring layers.',links:[['Map',GM('Bidoup Nui Ba National Park')]],r:['yes','national park preferred'],a:['yes','']},
+ {id:'s-french',sec:'sights',name:'The old French villas',loc:'Trần Hưng Đạo hill',price:'Free',tags:[['both','Both of us: yes']],
+  desc:'The colonial villa quarter, half restored and half derelict in the pines. A wander at golden hour.',links:[['Map',GM('Tran Hung Dao villas')]],r:['yes',''],a:['yes','']},
+ {id:'s-clay',sec:'sights',name:'Clay Tunnel (Đường Hầm Điêu Khắc)',loc:'Tuyền Lâm lake, ~12 km',price:'~€3',tags:[['both','Both of us: yes']],
+  desc:'A kilometre of sculpted clay walls, including a model of the city. Pairs with the Tuyền Lâm lake and the cable car.',links:[['Map',GM('Duong Ham Dieu Khac')]],r:['yes','sounds like not accounting for travel time'],a:['yes','']},
+ {id:'s-crazy',sec:'sights',name:'Crazy House (Hằng Nga Guesthouse)',loc:'3 Huỳnh Thúc Kháng',when:'08:30–18:30',price:'80,000 ₫',tags:[['both','Both of us: yes']],
+  desc:'Đặng Việt Nga’s concrete fairytale: tunnels, outside staircases, no right angles. On every list, and also genuinely one of a kind. Best on a weekday morning.',links:[['Map',GM('Crazy House Huynh Thuc Khang')]],r:['yes','must see, make sure ample time'],a:['yes','']},
+ {id:'s-xq',sec:'sights',name:'XQ Historical Village',loc:'Mai Anh Đào',price:'~€2',tags:[],
+  desc:'Hand-embroidered silk pictures, some huge, made in front of you. Real craft rather than a gimmick.',links:[['Map',GM('XQ Historical Village')]],a:['maybe','']},
+ {id:'s-lamdong',sec:'sights',name:'Lâm Đồng Museum and the Biology Museum',loc:'Hùng Vương · the old monastery on Đống Đa',price:'~€1',tags:[['','Rainy afternoon']],
+  desc:'Stone lithophones 3,000 years old and highland ethnography, then the old Jesuit-college biology museum: mossy stairs, jars, silence.',links:[['Map',GM('Lam Dong Museum')]],a:['no','']},
+ {id:'r-daphuoc',sec:'sights',name:'Đa Phước Cao Đài Temple',loc:'Tự Phước, Trại Mát · ~10 km east',price:'Free',tags:[['','Robin’s Saigoneer pick'],['','Pair with Linh Phước']],
+  desc:'One of Vietnam’s largest Cao Đài temples: saturated yellow, blue and red, dragon-wrapped columns and the all-seeing Divine Eye, on a quiet pine hill. It is an active place of worship rather than a spectacle, so cover shoulders and knees, remove shoes and keep voices low. The live Maps listing has 225 reviews at 4.6, including recent praise for its calm.',links:[['Saigoneer','https://saigoneer.com/vietnam-travel/19619-at-da-lat-s-secluded-da-phuoc-temple,-insights-into-cao-dai-teachings'],['Map',GM('Cao Dai Temple of Da Lat Da Phuoc')]],a:['no','']},
+ {id:'r-langnam',sec:'sights',name:'Làng Nấm Đà Lạt — mushroom village',loc:'Măng Lin, Cam Ly · ~11 km west',when:'07:30–17:00',price:'~80–100k pp',tags:[['','Robin’s Saigoneer pick'],['','Whimsical + tasty']],
+  desc:'A working organic farm growing eight unusual edible and medicinal mushrooms, including pink and golden oyster, shiitake and lion’s mane. The guided visit covers cultivation, usually offers hands-on harvesting, and can finish with mushroom dishes or hotpot. It is still operating with a current official site and live Maps listing; ask ahead for an English-speaking guide.',links:[['Official site','https://langnamdalat.com/'],['Saigoneer','https://saigoneer.com/vietnam-travel/19935-an-eye-opening-mushroom-farm-in-da-lat-for-budding-mycologists'],['Map',GM('Dalat Mushroom Village Lang Nam')]],a:['no','']},
+ {id:'s-pongour',sec:'sights',name:'Pongour and Elephant Falls',loc:'40–50 km south-west · half a day by car',price:'~€1 each',tags:[],
+  desc:'The big terraced falls at Pongour, and the scramble-down one at Thác Voi.',links:[['Map',GM('Pongour Waterfall')]],r:['yes',''],a:['maybe','']},
+];
+
+const AREAS = [
+ ['Centre and the market','Around Chợ Đà Lạt and the roundabout: the night market, the bánh căn streets, most of the food above.'],
+ ['Xuân Hương lake','The 5 km lake loop, best walked once in the morning mist.'],
+ ['The French villa hill','Trần Hưng Đạo and Lê Lai: the abandoned villas, the restored ones, the old college that houses the Biology Museum. Quiet and pine-scented, 15 minutes uphill from the market.'],
+ ['Out of town','Trại Mát and Linh Phước 8 km east; the Cầu Đất tea hills 25 km east; Lạc Dương, Lang Biang and K’Ho Coffee 12 km north; Bidoup 50 km north; Tuyền Lâm lake, the Clay Tunnel and the waterfalls to the south. Each needs a Grab or a car for the day (~€40–60).'],
+];
+
+const SECS = {coffee:'Specialty coffee and the farms. Google Maps identity/closure status is checked before recommendation; nomadic or workshop-unverified options are labelled. November is harvest month.',food:'Everything researched, including the places one or both of us said no to. Hours are from the linked sources.',sights:'Things to see in and around town.'};
+// [key, label, planner field holding their copied votes]
+const PEOPLE = [['rob','Rob','r'],['anna','Anna','a'],['han','Han'],['ben','Ben']];
+const WHO = PEOPLE.map(p => p[0]);
+const NAME = Object.fromEntries(PEOPLE.map(([k,l]) => [k,l]));
+const BASE = Object.fromEntries(PEOPLE.filter(p => p[2]).map(([k,,f]) => [k,f]));
+const LBL = {yes:'Yes',maybe:'Maybe',no:'No'};
+
+let who = '', tab = 'coffee', filter = 'all';
+let local = {han:{}, ben:{}};       // local[person][cardId] = {v,n}
+try { const s = JSON.parse(localStorage.getItem('dl-hb-local') || 'null'); if (s) local = s; } catch(e) {}
+try { const w = localStorage.getItem('dl-hb-who'); if (WHO.includes(w)) who = w; } catch(e) {}
+try { const t = localStorage.getItem('dl-hb-tab'); if (['coffee','food','sights','areas'].includes(t)) tab = t; } catch(e) {}
+if (['coffee','food','sights','areas'].includes(location.hash.slice(1))) tab = location.hash.slice(1);
+
+const votesOf = p => local[p] || (local[p] = {});
+// A vote saved on this device wins; otherwise fall back to the vote copied from the planner.
+const voteOf = (p, c) => { const x = votesOf(p)[c.id]; return x ? [x.v || '', x.n || ''] : (BASE[p] && c[BASE[p]]) || null; };
+const el = (t, cls, txt) => { const e = document.createElement(t); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+
+function voteLine(person, label, vote) {
+  const row = document.createDocumentFragment();
+  row.appendChild(el('span','p',label));
+  const cell = el('span');
+  if (vote && vote[0]) cell.appendChild(el('span','v '+vote[0], LBL[vote[0]]));
+  else if (!(vote && vote[1])) cell.appendChild(el('span','v none','–'));
+  if (vote && vote[1]) cell.appendChild(el('span','q','“'+vote[1].trim()+'”'));
+  row.appendChild(cell);
+  return row;
+}
+
+function mineBlock(card) {
+  const [cv, cn] = voteOf(who, card) || ['', ''];
+  const cur = {v: cv, n: cn};
+  const wrap = el('div','mine');
+  const btns = el('div','vbtns');
+  ['yes','maybe','no'].forEach(v => {
+    const b = el('button','vb '+v, LBL[v]);
+    b.type = 'button'; b.id = 'v-'+card.id+'-'+v;
+    b.setAttribute('aria-pressed', cur.v === v ? 'true' : 'false');
+    b.addEventListener('click', () => saveVote(card.id, cur.v === v ? '' : v, (document.getElementById('n-'+card.id)||{}).value || ''));
+    btns.appendChild(b);
+  });
+  const note = el('input','note');
+  note.type = 'text'; note.id = 'n-'+card.id; note.placeholder = 'Add a note (optional)'; note.value = cur.n || '';
+  note.addEventListener('change', () => saveVote(card.id, (voteOf(who, card) || [''])[0], note.value));
+  wrap.append(btns, note);
+  return wrap;
+}
+
+function renderCard(c) {
+  const d = el('article','card'); d.id = 'card-'+c.id;
+  const top = el('div'); top.appendChild(el('h3',null,c.name)); if (c.loc) top.appendChild(el('div','loc',c.loc)); d.appendChild(top);
+  if (c.when || c.price) { const m = el('div','meta'); if (c.when) m.appendChild(el('span',null,c.when)); if (c.price) m.appendChild(el('span',null,c.price)); d.appendChild(m); }
+  if (c.tags && c.tags.length) { const t = el('div','tagrow'); c.tags.forEach(([k,x]) => t.appendChild(el('span','tag'+(k?' '+k:''),x))); d.appendChild(t); }
+  d.appendChild(el('p','desc',c.desc));
+  if (c.links) { const l = el('div','links'); c.links.forEach(([t,u]) => { const a = el('a',null,t+' ↗'); a.href = u; a.target = '_blank'; a.rel = 'noopener'; l.appendChild(a); }); d.appendChild(l); }
+  const v = el('div','votes');
+  PEOPLE.forEach(([p, label]) => {
+    if (p === who) { v.appendChild(el('span','p',label)); v.appendChild(mineBlock(c)); }
+    else v.appendChild(voteLine(p, label, voteOf(p, c)));
+  });
+  d.appendChild(v);
+  return d;
+}
+
+function passes(c) {
+  if (filter === 'all') return true;
+  const yes = p => (voteOf(p, c) || [])[0] === 'yes';
+  if (filter === 'both') return yes('rob') && yes('anna');
+  if (filter === 'liked') return yes('rob') || yes('anna') || (c.tags||[]).some(t => t[0] === 'han');
+  if (filter === 'todo') return who && !(voteOf(who, c) || [])[0];
+  return true;
+}
+
+function render() {
+  const main = document.getElementById('main');
+  const y = window.scrollY;
+  main.replaceChildren();
+  document.querySelectorAll('.tabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === tab ? 'true' : 'false'));
+  document.querySelectorAll('.seg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.who === who ? 'true' : 'false'));
+  document.querySelectorAll('[data-count]').forEach(s => s.textContent = CARDS.filter(c => c.sec === s.dataset.count).length);
+  const sec = el('section','sec');
+  if (tab === 'areas') {
+    sec.appendChild(el('p','sec-intro','Da Lat in four parts, so you can see where things sit.'));
+    const a = el('div','areas');
+    AREAS.forEach(([h,p]) => { const b = el('div','area'); b.append(el('h3',null,h), el('p',null,p)); a.appendChild(b); });
+    sec.appendChild(a);
+  } else {
+    sec.appendChild(el('p','sec-intro',SECS[tab]));
+    const chips = el('div','chips');
+    [['all','All'],['liked','One of us liked it'],['both','Both of us: yes'],['todo','Not voted yet']].forEach(([k,t]) => {
+      if (k === 'todo' && !who) return;
+      const b = el('button','chip',t); b.type = 'button'; b.id = 'f-'+k; b.setAttribute('aria-pressed', filter === k ? 'true' : 'false');
+      b.addEventListener('click', () => { filter = k; render(); }); chips.appendChild(b);
+    });
+    sec.appendChild(chips);
+    const cards = CARDS.filter(c => c.sec === tab && passes(c));
+    if (!cards.length) sec.appendChild(el('p','empty', filter === 'todo' ? 'You have voted on everything here.' : 'Nothing matches this filter.'));
+    let grp = null, list = null;
+    cards.forEach(c => {
+      if (c.grp !== grp || !list) { grp = c.grp; if (grp) sec.appendChild(el('h2','group-h',grp)); list = el('div','list'); sec.appendChild(list); }
+      list.appendChild(renderCard(c));
+    });
+  }
+  main.appendChild(sec);
+  window.scrollTo(0, y);
+}
+
+function setStatus(t, warn) { const s = document.getElementById('status'); s.textContent = t; s.classList.toggle('warn', !!warn); }
+
+function saveVote(id, v, n) {
+  if (!who) return;
+  votesOf(who)[id] = {v: v || '', n: (n || '').trim()};
+  try { localStorage.setItem('dl-hb-local', JSON.stringify(local)); setStatus('Saved on this device. Export when you are done.'); }
+  catch(e) { setStatus('This browser is not keeping your votes, so export them before you close the page.', true); }
+  render();
+}
+
+document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => {
+  who = b.dataset.who; if (filter === 'todo' && !who) filter = 'all';
+  try { localStorage.setItem('dl-hb-who', who); } catch(e) {}
+  render();
+  setStatus(who ? 'Tap Yes, Maybe or No on anything that appeals.' : 'Pick your name above to start voting.');
+}));
+document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => {
+  tab = b.dataset.tab; filter = 'all';
+  try { localStorage.setItem('dl-hb-tab', tab); } catch(e) {}
+  render(); window.scrollTo(0, 0);
+}));
+document.getElementById('copyBtn').addEventListener('click', async () => {
+  const box = document.getElementById('copyBox');
+  const people = who ? [who] : WHO.filter(p => Object.keys(votesOf(p)).length);
+  let lines = [];
+  people.forEach(p => {
+    const name = NAME[p];
+    const mine = votesOf(p);
+    const rows = CARDS.filter(c => mine[c.id] && (mine[c.id].v || mine[c.id].n)).map(c => '• ' + c.name + ': ' + (LBL[mine[c.id].v] || 'note') + (mine[c.id].n ? ' (' + mine[c.id].n + ')' : ''));
+    lines.push(name + '’s Da Lat votes' + (rows.length ? '' : ': none yet')); lines = lines.concat(rows); lines.push('');
+  });
+  box.value = lines.join('\n').trim(); box.hidden = false;
+  try { await navigator.clipboard.writeText(box.value); setStatus('Copied. Paste it into WhatsApp to send it.'); }
+  catch (e) { box.focus(); box.select(); setStatus('Select the text below and copy it.'); }
+});
+
+function exportObj(p) {
+  const out = {};
+  Object.entries(votesOf(p)).forEach(([id, x]) => { if (x.v || x.n) out[id] = {v: x.v, note: x.n}; });
+  return out;
+}
+document.getElementById('exportBtn').addEventListener('click', () => {
+  if (!who) { setStatus('Pick your name at the top first, then export.', true); return; }
+  const txt = JSON.stringify(exportObj(who), null, 2);
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([txt], {type: 'application/json'}));
+  a.download = 'vietnam-votes-' + who + '-dalat.json';
+  document.body.appendChild(a); a.click(); a.remove();
+  setStatus('Saved vietnam-votes-' + who + '-dalat.json to your downloads. Send that file to the group.');
+});
+document.getElementById('importFile').addEventListener('change', async e => {
+  const files = [...e.target.files]; const done = [];
+  for (const f of files) {
+    try {
+      const data = JSON.parse(await f.text());
+      const m = f.name.match(/vietnam-votes-(rob|anna|han|ben)\b/i) || f.name.match(/\b(rob|anna|han|ben)\b/i);
+      const p = m ? m[1].toLowerCase() : null;
+      if (!p) { setStatus(f.name + ': the file name needs rob, anna, han or ben in it so the page knows whose votes they are.', true); continue; }
+      local[p] = local[p] || {};
+      Object.entries(data).forEach(([id, x]) => { if (x && typeof x === 'object') local[p][id] = {v: x.v || '', n: x.note || x.n || ''}; });
+      done.push(NAME[p]);
+    } catch (err) { setStatus(f.name + ' is not a votes file.', true); }
+  }
+  e.target.value = '';
+  if (done.length) { try { localStorage.setItem('dl-hb-local', JSON.stringify(local)); } catch(err) {} setStatus('Loaded votes for ' + done.join(' and ') + '.'); render(); }
+});
+render();
+setStatus(who ? 'Tap Yes, Maybe or No on anything that appeals.' : 'Pick your name above to start voting.');
+</script>
+</body>
+</html>
